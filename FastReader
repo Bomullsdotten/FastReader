@@ -1,0 +1,48 @@
+# -*- coding: utf-8 -*-
+__author__ = 'Sondre'
+import Tkinter
+import time
+import thread
+import tkFont
+
+#C:\Users\Sondre\Documents\2nd grade\Chapter One.txt
+#C:\Users\Sondre\Documents\2nd grade\KTN\Computer Networking\Chapter 1 Computer Networks and the Internet\test.txt
+
+class FastReader:
+    root = ''
+    outText = ''
+    path = ''
+    def __init__(self, filePath, root):
+        self.path = filePath
+        self.root = root
+        self.outText = Tkinter.StringVar()
+        self.createGUI()
+        thread.start_new_thread(self.createReader, ())
+
+
+
+
+    def createGUI(self):
+        readWindow = Tkinter.Toplevel(self.root)
+        self.myFont = tkFont.Font(family = 'Times New Roman Baltic', size = 16)
+        q = 'sadgag'
+        self.outText.set(q)
+        tL = Tkinter.Label(readWindow, textvariable = self.outText, font = self.myFont )
+        tL.pack()
+
+    def createReader(self):
+        try:
+            fileVar = open(self.path, 'r')
+            test = fileVar.readline()
+            count = 0
+            time.sleep(2)
+            while fileVar != "":
+                wordList = test.split()
+                for x in wordList:
+                    self.outText.set(x)
+                    time.sleep(0.2)
+                test = fileVar.readline()
+            fileVar.close()
+        except:
+            print 'ops'
+            self.outText.set('there was an error')
